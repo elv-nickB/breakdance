@@ -2,7 +2,7 @@ import argparse
 import os
 import json
 import pickle
-from src.embedding import getembedpartpaths_mod, getembedpartpaths_mod_parallel
+from src.embedding import getembedpartpaths_mod
 from imagebind import imagebind_model
 
 VID_DIR = 'vids'
@@ -44,7 +44,7 @@ def main():
 
         all_tags = json.load(open(f'{TAG_DIR}/{iq}.json','r')) 
 
-        all_embed, all_labels, all_labels_dict = getembedpartpaths_mod_parallel(eventfilepaths, all_tags, model = model, verbose = args.verbose, fast = True)
+        all_embed, all_labels, all_labels_dict = getembedpartpaths_mod(eventfilepaths, all_tags, model = model, verbose = args.verbose, fast = True)
         allresults = (all_embed, all_labels, all_labels_dict)
         pickle.dump(allresults, open('embeds/{}.pkl'.format(iq),'wb'))
 

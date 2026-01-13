@@ -1,14 +1,10 @@
 from sklearn.metrics import balanced_accuracy_score, classification_report
 import torch
-from torch.utils.data import Dataset, DataLoader
-from torch.utils.data.sampler import BatchSampler
-from src.data import BreakdanceDataLoader, getContrastdata, getMCContrastdata, BalancedBatchSampler, getMCContrastdata_ver2, getlevelLabels
-from torch import nn
+from torch.utils.data import DataLoader
+from src.data import BreakdanceDataLoader, getMCContrastdata, BalancedBatchSampler, getMCContrastdata_ver2, getlevelLabels
 from src.loss import MCHingeLoss, FMContrastiveSim
 import numpy as np
-from ray import train, tune
-import math
-from ray.train import Checkpoint, get_checkpoint
+from ray import train
 import tempfile
 from pathlib import Path
 import ray.cloudpickle as pickle
@@ -584,6 +580,6 @@ class MCHingeAdvancedTrainerMultLevel_RAY(object):
                 #         returndict['val_acc'],returndict['val_report'] = max_val_acc, best_epoch_val_report
                 #     if self.test_data is not None: # Need to modify
                 #         returndict['tst_acc'],  returndict['tst_report']  = self.evaluate(test_loader)
-            torch.save(best_model.state_dict(), '/home/elv-sauptik/PROJECTS/breakdance/models_ckpt/{}.ckpt'.format('best_model'))
+            torch.save(best_model.state_dict(), 'best_model.ckpt')
             print('Finished Training') 
             return best_model, self.net

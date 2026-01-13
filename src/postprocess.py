@@ -204,29 +204,34 @@ def filterdata(all_x, all_y, all_dict, all_level_y, all_ath, all_desc):
     return filt_x, filt_y, filt_ydict, filt_level_y, filt_ath, filt_desc
 
 
-data = mergedataALL('embeds/',['iq__49UhnKG6knwcRKzRyPxbGDmrMzEE.pkl'])
+def partition(filt_x_br, filt_y_br, filt_ydict_br, filt_level_y_br, filt_ath_br, filt_desc_br):
+    labelmap = {'None': 0,  'powermove': 1, 'footwork' : 2, 'toprock': 3}
+    filterlabels = list(labelmap.keys())
+    altlabels_br = [[l[0] for l in filt_level_y_br]]
+    y_br = [labelmap[v] for v in filt_y_br]
 
-all_x_br, all_y_br, all_dict_br, all_level_y_br, all_ath_br, all_desc_br = data
-filt_x_br, filt_y_br, filt_ydict_br, filt_level_y_br, filt_ath_br, filt_desc_br = filterdata(all_x_br, all_y_br, all_dict_br, all_level_y_br, all_ath_br, all_desc_br)
+    trainX_br,trainy_br,trainlabel_br,testX_br,testy_br,testlabel_br,trainaltlabel_br,testaltlabel_br = partitiondata(filt_x_br, y_br, filt_y_br, altlabels_br, seed = 42, ratio = 0.8, filterlabels = filterlabels)
+    trainaltlabel_br = [trainaltlabel_br[0].tolist()]
+    testaltlabel_br = [testaltlabel_br[0].tolist()]
+    trainlabel_br = trainlabel_br.tolist()
+    testlabel_br = testlabel_br.tolist()
+    trainy_br = trainy_br.tolist()
+    testy_br = testy_br.tolist()
 
-labelmap = {'None': 0,  'powermove': 1, 'footwork' : 2, 'toprock': 3}
-filterlabels = list(labelmap.keys())
-altlabels_br = [[l[0] for l in filt_level_y_br]]
-y_br = [labelmap[v] for v in filt_y_br]
-
-seed = 42
-
-trainX_br,trainy_br,trainlabel_br,testX_br,testy_br,testlabel_br,trainaltlabel_br,testaltlabel_br = partitiondata(filt_x_br, y_br, filt_y_br, altlabels_br, seed = seed, ratio = 0.8, filterlabels = filterlabels)
-trainaltlabel_br = [trainaltlabel_br[0].tolist()]
-testaltlabel_br = [testaltlabel_br[0].tolist()]
-trainlabel_br = trainlabel_br.tolist()
-testlabel_br = testlabel_br.tolist()
-trainy_br = trainy_br.tolist()
-testy_br = testy_br.tolist()
+    return (trainX_br,trainy_br,trainlabel_br,testX_br,testy_br,testlabel_br,trainaltlabel_br,testaltlabel_br)
 
 
-alldata = (trainX_br,trainy_br,trainlabel_br,testX_br,testy_br,testlabel_br,trainaltlabel_br,testaltlabel_br)
-pickle.dump(alldata,open('test_{}.pkl'.format(seed),'wb'))
+#trainX_br,trainy_br,trainlabel_br,testX_br,testy_br,testlabel_br,trainaltlabel_br,testaltlabel_br = partitiondata(filt_x_br, y_br, filt_y_br, altlabels_br, seed = seed, ratio = 0.8, filterlabels = filterlabels)
+#trainaltlabel_br = [trainaltlabel_br[0].tolist()]
+#testaltlabel_br = [testaltlabel_br[0].tolist()]
+#trainlabel_br = trainlabel_br.tolist()
+#testlabel_br = testlabel_br.tolist()
+#trainy_br = trainy_br.tolist()
+#testy_br = testy_br.tolist()
+#
+#
+#alldata = (trainX_br,trainy_br,trainlabel_br,testX_br,testy_br,testlabel_br,trainaltlabel_br,testaltlabel_br)
+#pickle.dump(alldata,open('test_{}.pkl'.format(seed),'wb'))
 
 def merge_datasets(*datasets):
     """
