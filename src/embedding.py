@@ -40,9 +40,6 @@ def get_tags_interval(all_tags, start_time: int, end_time: int, padding: int, in
                             res[track].append(td)
     return res
 
-
-
-
 def processandcompressdwnldTagsInterval(tracks = ['Powermove'], start_time=0, end_time=1e6, all_tags = None):
     # print('Processing Tags (No Download)')
     all_tags_ts = get_tags_interval(all_tags, start_time, end_time, 0, tracks)
@@ -511,8 +508,6 @@ def getipseglevel_fast(
     if len(video_outputs)>0: result = torch.stack(video_outputs, dim=0).to('cpu')
     else: result, labels = None, None
     return result, labels, labelsdict, end_time
-
-
 
 def getembedpartpaths_mod(vidfilepaths, all_tags, model = None, verbose = 0, fast = False): ## Assume same label for entire video!
 
