@@ -4,79 +4,6 @@ from collections import Counter
 
 from src.utils import partitiondata
 
-def mergedataMult(videodir, files):
-    all_embed = []    
-    alllabels = []    
-    labelsdictall = []
-    for i, f in enumerate(files):
-        if f.endswith('.pkl'):
-            embed_np, finallabels, labelsdict = pickle.load(open(videodir+f,'rb'))
-        else: continue
-
-        print('Loading and Merging {}/{}'.format(i,len(files)))
-        # embed_np, finallabels, labelsdict = pickle.load(open(videodir+f,'rb'))
-        for seglabels, ldict in zip(finallabels, labelsdict):
-            tmp = []
-            for label in seglabels:
-                if label == 'None':
-                    tmp.append('None')
-                elif label == 'Hard None':
-                    tmp.append('Hard None')
-                else:
-                    lablist =  label.split(',')[0].split(':')
-                    lablist[0] = lablist[0].strip()
-                    if lablist[0] == 'Category':
-                        tmp.append(lablist[1].strip())
-                    else: print("Dropping {}".format(lablist[0]))
-            
-            labset = set(tmp)
-            if 'Powermoves' in labset or 'Toprocks' in labset or 'Footwork' in labset:
-                if 'Powermoves' in labset: 
-                    lab = 'powermove'
-                    if len(all_embed): all_embed = np.vstack((all_embed, embed_np))
-                    else: all_embed = embed_np
-                    alllabels.append(lab)
-                    ldict['iq'] = f.split('.')[0]
-                    labelsdictall.append(ldict)
-
-                if 'Toprocks' in labset: 
-                    lab = 'toprock'
-                    if len(all_embed): all_embed = np.vstack((all_embed, embed_np))
-                    else: all_embed = embed_np
-                    alllabels.append(lab)
-                    ldict['iq'] = f.split('.')[0]
-                    labelsdictall.append(ldict)
-
-                if 'Footwork' in labset: 
-                    lab = 'footwork'
-                    if len(all_embed): all_embed = np.vstack((all_embed, embed_np))
-                    else: all_embed = embed_np
-                    alllabels.append(lab)
-                    ldict['iq'] = f.split('.')[0]
-                    labelsdictall.append(ldict)
-
-            # if 'None' in labset: 
-            #     lab = 'None'
-            #     if len(all_embed): all_embed = np.vstack((all_embed, embed_np))
-            #     else: all_embed = embed_np
-            #     alllabels.append(lab)
-            #     ldict['iq'] = f.split('.')[0]
-            #     labelsdictall.append(ldict)
-
-            elif 'Hard None' in labset: 
-                lab = 'None'
-                if len(all_embed): all_embed = np.vstack((all_embed, embed_np))
-                else: all_embed = embed_np
-                alllabels.append(lab)
-                ldict['iq'] = f.split('.')[0]
-                labelsdictall.append(ldict)
-            # else: 
-            #     lab = ','.join(tmp) 
-            #     print('Dropping label {}'.format(lab))
-
-
-    return all_embed, alllabels, labelsdictall
-
 def mergedataALL(videodir, files):
 
     def finddeeplabel(lablist):
@@ -219,19 +146,6 @@ def partition(filt_x_br, filt_y_br, filt_ydict_br, filt_level_y_br, filt_ath_br,
     testy_br = testy_br.tolist()
 
     return (trainX_br,trainy_br,trainlabel_br,testX_br,testy_br,testlabel_br,trainaltlabel_br,testaltlabel_br)
-
-
-#trainX_br,trainy_br,trainlabel_br,testX_br,testy_br,testlabel_br,trainaltlabel_br,testaltlabel_br = partitiondata(filt_x_br, y_br, filt_y_br, altlabels_br, seed = seed, ratio = 0.8, filterlabels = filterlabels)
-#trainaltlabel_br = [trainaltlabel_br[0].tolist()]
-#testaltlabel_br = [testaltlabel_br[0].tolist()]
-#trainlabel_br = trainlabel_br.tolist()
-#testlabel_br = testlabel_br.tolist()
-#trainy_br = trainy_br.tolist()
-#testy_br = testy_br.tolist()
-#
-#
-#alldata = (trainX_br,trainy_br,trainlabel_br,testX_br,testy_br,testlabel_br,trainaltlabel_br,testaltlabel_br)
-#pickle.dump(alldata,open('test_{}.pkl'.format(seed),'wb'))
 
 def merge_datasets(*datasets):
     """
