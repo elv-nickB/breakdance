@@ -10,7 +10,7 @@ TAG_DIR = 'tags'
 
 def main():
     parser = argparse.ArgumentParser(description = 'Label and Embed')
-    parser.add_argument('-iq',default = 'iq__2L5x6pdJj8ZZMx681yen8aYyAgFC', type = str, help = "This is the IQ for which we need embedding and labeling done!") #MGM iq__2oENKiVcWj9PLnKjYupCw1wduUxj, SONY: iq__4Dezn5i6EZs4vFCD4qE8Xc4QbXsf   UEFA: iq__3e2DAggroPSqepcEdUgTCUh4ZH9W  FOX: iq__2VrV79DN63oWaVeFxwnpvGQsuTMz
+    parser.add_argument('-iq', type = str, help = "This is the IQ for which we need embedding and labeling done!")
     parser.add_argument('-iqlist',default = '', type = str, help = "The list of iqs as json")
     parser.add_argument('-verbose', default = 1, type = int)
     parser.add_argument('--max_parts', default = None, type = int)

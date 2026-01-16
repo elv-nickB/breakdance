@@ -13,14 +13,13 @@ The dataset used before Sauptik left is saved under 'original.pkl'. This script 
 
 def main():
     parser = argparse.ArgumentParser(description='Process some integers.')
-    parser.add_argument('--original', type=str, default='original.pkl')
+    parser.add_argument('--original', type=str, default='datasets/original.pkl')
     parser.add_argument('--input', type=str, help='Path to content level embedding files')
     parser.add_argument('--output', type=str, help='Output file', default='embeddings.pkl')
     args = parser.parse_args()
 
     qids = os.listdir(args.input)
 
-    # added "/" cause original function just merges the strings and I don't want to change it
     data = mergedataALL(args.input + "/", qids)
     data = filterdata(*data)
 
